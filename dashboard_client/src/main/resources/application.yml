@@ -1,0 +1,29 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+
+server:
+  port: 8001
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  application:
+    name: dashboard
+
+
+logging:
+  level:
+    com:
+      anycall:
+        display:
+          mapper: DEBUG
+  path: logs
+
+logging.level.root: INFO
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+logging.path: /home/admin/application/logs
+#logging.file: demo.log
+

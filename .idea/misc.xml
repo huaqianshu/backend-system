@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FUSUsageTrigger">
+    <session id="423799867">
+      <usages-collector id="statistics.spring.boot.mvc.usages">
+        <counts>
+          <entry key="RestClientRequestEditorNavigator.fromCode" value="1" />
+          <entry key="RestClientRequestRunnerNavigator.fromCode" value="4" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/serviceorder_service/pom.xml" />
+        <option value="$PROJECT_DIR$/member_service/pom.xml" />
+        <option value="$PROJECT_DIR$/dashboard_client/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/organization_service/pom.xml" />
+        <option value="$PROJECT_DIR$/serviceorder-service/pom.xml" />
+        <option value="$PROJECT_DIR$/serviceorder_service/member_service/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

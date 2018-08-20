@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anycall.serviceorder.mapper.order.ServiceOrderMapper">
+
+
+    <select id="findById" parameterType="java.lang.Long"
+            resultType="com.anycall.base.model.business.ServiceOrder">
+
+        SELECT *
+        FROM serviceOrder
+        WHERE id = #{id};
+
+    </select>
+    <select id="searchServiceOrderCount"
+            parameterType="com.anycall.base.model.business.condition.ServiceOrderSearchPageCondition"
+            resultType="java.lang.Integer">
+
+        SELECT COUNT(1)
+        FROM serviceOrder t0
+        left JOIN shop t2 ON t0.shopCode=t2.shopCode
+
+        <where>
+            1=1
+            <if test="stateIds!=null and stateIds.size()>0">
+                AND t2.stateId IN
+                <foreach collection="stateIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="brandId != null and brandId !=''">
+                AND t0.companyBrandId=#{brandId}
+            </if>
+            <if test="brandIds!= null and brandIds.size()>0">
+                AND t0.companyBrandId IN
+                <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="cityId != null and cityId>0">
+                AND t2.cityId=#{cityId}
+            </if>
+            <if test="shopCodes!= null and shopCodes.size()>0">
+                AND t0.shopCode IN
+                <foreach collection="shopCodes" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="stateIds!=null and stateIds.size()>0">
+                AND t2.stateId IN
+                <foreach collection="stateIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="emergency!=null and emergency==true">
+                AND t0.slaLevel IN ('p1','p2')
+            </if>
+            <if test="notEmergency!=null and notEmergency==true">
+                AND t0.slaLevel IN ('p3','p4','p5','p6')
+            </if>
+
+            <if test="expired !=null and expired == 'true'">
+                AND t0.expired
+            </if>
+            <if test="expired !=null and expired == 'false'">
+                AND !t0.expired
+            </if>
+            <if test="statusList!= null and statusList.size()>0">
+                AND t0.status IN
+                <foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="orgTreeIds!=null and orgTreeIds.size()>0">
+                AND t0.supplierId IN
+                <foreach collection="orgTreeIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="shopCode!=null and shopCode!=''">
+                AND t0.shopCode =#{shopCpde}
+            </if>
+            <if test="startTime != null and dateType =='reportTime'">
+                AND t0.reportTime &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and dateType =='reportTime'">
+                AND t0.reportTime &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="startTime != null and dateType =='finishTime'">
+                AND t0.finishTime &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and dateType =='finishTime'">
+                AND t0.finishTime &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="slaLevels!= null and slaLevels.size()>0">
+                AND t0.slaLevel IN
+                <foreach collection="slaLevels" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="searchCountBySlaLevel"
+            parameterType="com.anycall.base.model.business.condition.ServiceOrderSearchPageCondition"
+            resultType="com.anycall.base.model.business.ServiceOrder">
+
+        SELECT t0.id,t0.reportTime,t0.slaLevel
+        FROM serviceOrder t0
+        JOIN shop t2 ON t0.shopCode=t2.shopCode
+        <where>
+            1=1
+            <if test="brandId != null and brandId != ''">
+                AND t0.companyBrandId=#{brandId}
+            </if>
+            <if test="brandIds!= null and brandIds.size()>0">
+                AND t0.companyBrandId IN
+                <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="cityId != null and cityId>0">
+                AND t2.cityId=#{cityId}
+            </if>
+            <if test="shopAuths!= null and shopAuths.size()>0">
+                AND t0.shopCode IN
+                <foreach collection="shopAuths" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="orgTreeIds!=null and orgTreeIds.size()>0">
+                AND t0.supplierId IN
+                <foreach collection="orgTreeIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startTime != null">
+                AND t0.reportTime &gt;=#{startTime}
+            </if>
+            <if test="endTime != null">
+                AND t0.reportTime &lt;=#{endTime}
+            </if>
+            <if test="slaLevels!= null and slaLevels != ''">
+                AND t0.slaLevel IN
+                <foreach collection="slaLevels" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="searchList" parameterType="com.anycall.base.model.business.condition.ServiceOrderSearchPageCondition"
+            resultType="com.anycall.base.model.business.bo.ServiceOrderBo">
+        SELECT DISTINCT t0.*,
+        t3.orgName as
+        supplierName,t8.companyName,t1.brandName,t2.shopName
+        ,concat(t0.bigCatalogName,'>',t0.childCatalogName,'>',t0.brandArea,'>',t0.failure)
+        as catalogShortName
+        FROM serviceOrder t0
+        JOIN companyBrand t1 ON t0.companyBrandId = t1.id
+        JOIN shop t2 ON t0.shopCode=t2.shopCode
+        JOIN organization t3 ON t0.supplierId=t3.id
+        JOIN company t8 ON t0.companyId=t8.id
+        <where>
+            1=1
+            <if test="stateIds!=null and stateIds.size()>0">
+                AND t2.stateId IN
+                <foreach collection="stateIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="brandId != null">
+                AND t0.companyBrandId=#{brandId}
+            </if>
+            <if test="region != null and region!=''">
+                AND t2.region=#{region}
+            </if>
+            <if test="brandIds!= null and brandIds.size()>0">
+                AND t0.companyBrandId IN
+                <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="cityId != null and cityId>0">
+                AND t2.cityId=#{cityId}
+            </if>
+            <if test="shopCodes!= null and shopCodes.size()>0">
+                AND t0.shopCode IN
+                <foreach collection="shopCodes" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="stateIds!=null and stateIds.size()>0">
+                AND t2.stateId IN
+                <foreach collection="stateIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="emergency!=null and emergency==true">
+                AND t0.slaLevel IN ('p1','p2')
+            </if>
+            <if test="notEmergency!=null and notEmergency==true">
+                AND t0.slaLevel IN ('p3','p4','p5','p6')
+            </if>
+            <if test="expired !=null and expired == 'true'">
+                AND t0.expired
+            </if>
+            <if test="expired !=null and expired == 'false'">
+                AND !t0.expired
+            </if>
+            <if test="statusList!= null and statusList.size()>0">
+                AND t0.status IN
+                <foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="orgTreeIds!=null and orgTreeIds.size()>0">
+                AND t0.supplierId IN
+                <foreach collection="orgTreeIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="shopCode!=null and shopCode!=''">
+                AND t0.shopCode =#{shopCpde}
+            </if>
+            <if test="startTime != null and dateType =='reportTime'">
+                AND t0.reportTime &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and dateType =='reportTime'">
+                AND t0.reportTime &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="startTime != null and dateType =='finishTime'">
+                AND t0.finishTime &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and dateType =='finishTime'">
+                AND t0.finishTime &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="finished !=null and finished == true">
+                and (t0.status ='FINISH' or t0.status = 'CLEARED')
+            </if>
+            <if test="finished !=null and finished == false">
+                and (t0.status !='FINISH' AND t0.status != 'CLEARED'
+                AND t0.status != 'CANCELED' AND t0.status != 'CLOSED')
+            </if>
+            <if test="overdue !=null and overdue == true">
+                AND t0.expired
+            </if>
+            <if test="overdue !=null and overdue == false">
+                AND !t0.expired
+            </if>
+            <if test="slaLevels!= null and slaLevels.size()>0">
+                AND t0.slaLevel IN
+                <foreach collection="slaLevels" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="sortProperty != null and sortProperty != ''">
+                ORDER BY ${sortProperty} ${sortDirection}
+            </if>
+            LIMIT #{start},#{limit}
+        </where>
+    </select>
+
+    <!--<select id="selectServiceOrderByUpdateTime" parameterType="com.anycall.display.model.dboutcome.member.ServiceApi"-->
+    <!--resultType="com.anycall.display.model.dboutcome.order.ServiceOrderApiBo">-->
+
+    <!--select shp.stateName as provinceName, shp.cityName,-->
+    <!--CASE WHEN shp.region = 'EAST' THEN-->
+    <!--'华东'-->
+    <!--WHEN shp.region = 'SOUTH' THEN-->
+    <!--'华南'-->
+    <!--WHEN shp.region= 'NORTH' THEN-->
+    <!--'华北'-->
+    <!--WHEN shp.region = 'SOUTHWEST' THEN-->
+    <!--'西南'-->
+    <!--WHEN shp.region = 'NORTHEAST' THEN-->
+    <!--'东北'-->
+    <!--WHEN shp.region = 'FLAGSHIPSTORE' THEN-->
+    <!--'旗舰店铺'-->
+    <!--WHEN shp.region = 'CENTER' THEN-->
+    <!--'华中'-->
+    <!--WHEN shp.region = 'WEST' THEN-->
+    <!--'华西'-->
+    <!--ELSE-->
+    <!--''-->
+    <!--END as region,-->
+    <!--shp.shopName,ser.billsSource,ser.serviceOrderNo,ser.status,ser.rework-->
+    <!--,ser.bigCatalogName,ser.childCatalogName,ser.brandArea,ser.catalogLevelFiveName,-->
+    <!--ser.failure,ser.`desc`,ser.reportTime,ser.finishTime,ser.type,wk.preReimburseAmount,-->
+    <!--ser.updateTime,ser.arriveTime,ser.requireFinishTime,ser.reportMan,ser.reportManTel,-->
+    <!--ser.expired,ser.slaDuration,ser.count-->
+    <!--from serviceorder  ser-->
+    <!--LEFT JOIN shop shp on ser.shopCode=shp.shopCode-->
+    <!--LEFT JOIN workorder wk on wk.id=ser.workOrderId-->
+    <!--WHERE ser.updateTime>=#{updateTime}-->
+    <!--<if test="departmentCode!= null and departmentCode != ''">-->
+    <!--AND (find_in_set(ser.shopCode,#{departmentCode} ))-->
+    <!--</if>-->
+
+
+    <!--</select>-->
+
+
+    <!--<select id="searchListDashboardCount" parameterType="com.anycall.display.searchCondition.order.OperatingsCondition"-->
+    <!--resultType="java.lang.Integer">-->
+    <!--select COUNT(1)-->
+    <!--from serviceorder so-->
+    <!--LEFT JOIN quotationorder qo on so.id=qo.serviceOrderId-->
+    <!--LEFT JOIN companybrand cb on so.companyBrandId=cb.id-->
+    <!--LEFT JOIN shop s on so.shopCode=s.shopCode-->
+    <!--LEFT JOIN member m on m.id=so.dispatcherId-->
+    <!--<where>so.`status` not in ('CANCELED','CLOSED')-->
+
+    <!--<if test="cityId != null">-->
+    <!--and s.cityId=#{cityId}-->
+    <!--</if>-->
+    <!--<if test="brandId != null">-->
+    <!--and s.brandId=#{brandId}-->
+    <!--</if>-->
+    <!--<if test="provinceId != null">-->
+    <!--and s.stateId=#{provinceId}-->
+    <!--</if>-->
+    <!--<if test="startTime != null">-->
+    <!--AND so.reportTime &gt;=#{startTime}-->
+    <!--</if>-->
+    <!--<if test="endTime != null">-->
+    <!--AND so.reportTime &lt;=#{endTime}-->
+    <!--</if>-->
+
+    <!--<if test="region != null and region!='' ">-->
+    <!--AND s.region=#{region}-->
+    <!--</if>-->
+    <!--<if test="serviceType != null and  serviceType != ''">-->
+    <!--AND so.type=#{serviceType}-->
+    <!--</if>-->
+    <!--</where>-->
+    <!--</select>-->
+    <!--<select id="searchPlatformDashboardData"-->
+    <!--parameterType="com.anycall.display.searchCondition.order.OperatingsCondition"-->
+    <!--resultType="com.anycall.display.model.dboutcome.order.PlatformDashboardStatisticBo">-->
+    <!--select-->
+    <!--m.realName,-->
+    <!--m.id AS dispatcherId,m.districtId,-->
+    <!--<if test="brandName!=null and brandName !=''">-->
+
+    <!--cb.brandName,cb.id as brandId,-->
+    <!--</if>-->
+    <!--<if test="district !=null and  district!=''">-->
+    <!--CASE WHEN s.region = 'EAST' THEN-->
+    <!--'华东'-->
+    <!--WHEN s.region = 'SOUTH' THEN-->
+    <!--'华南'-->
+
+    <!--WHEN s.region = 'NORTH' THEN-->
+    <!--'华北'-->
+    <!--WHEN s.region = 'SOUTHWEST' THEN-->
+    <!--'西南'-->
+    <!--WHEN s.region = 'NORTHEAST' THEN-->
+    <!--'东北'-->
+    <!--WHEN s.region = 'FLAGSHIPSTORE' THEN-->
+    <!--'旗舰店铺'-->
+    <!--WHEN s.region = 'CENTER' THEN-->
+    <!--'华中'-->
+    <!--WHEN s.region = 'WEST' THEN-->
+    <!--'华西'-->
+    <!--ELSE-->
+    <!--''-->
+    <!--END AS regionPR,-->
+    <!--</if>-->
+    <!--<if test="provinceName!=null and provinceName !=''">-->
+
+    <!--s.stateName,s.stateId,-->
+    <!--</if>-->
+    <!--sum(so.appeal) as appealNum,-->
+    <!--sum(case when so.`status`='WAITRECEIVING' then 1 else 0 end) as soWaitReceivingNum,-->
+    <!--sum(case when so.`status`='REPORTED' then 1 else 0 end) as soUndispatchNum,-->
+    <!--sum(case when so.`status`='DISTRIBUTED' then 1 else 0 end) as soDispatchedNum,-->
+    <!--sum(case when so.`status` in ('FINISH','CLEARED') then 1 else 0 end) as soFinishedNum,-->
+    <!--sum(case when so.`status` in ('QUOTING','UNDERWAY') then 1 else 0 end) as soUnfinishedNum,-->
+    <!--sum(case when qo.quotationStatus in ('RECHECKED') then 1 else 0 end) as qoApprovedNum,-->
+    <!--sum(case when so.`status` in ('QUOTING') then 1 else 0 end) as soQuotingNum,-->
+    <!--sum(case when so.`status` in ('UNDERWAY') then 1 else 0 end) as soUnderwayNum,-->
+
+    <!--sum(case when qo.quotationStatus in ('STAYPRETRIAL','DRAFT','STAYFIRSRTRIAL','FIRSRTRIALREJECT') then 1 else 0-->
+    <!--end) as qoPreparingNum,-->
+    <!--sum(case when qo.quotationStatus in ('STAYRECHECK') then 1 else 0 end) as qoWaitApproveNum,-->
+    <!--sum(case when qo.quotationStatus in ('RECHECKREJECT') then 1 else 0 end) as qoApproveRejectedNum,-->
+    <!--sum(case when so.quotationOrderId is not null then 1 else 0 end) as qoTotalNum,-->
+    <!--sum(case when (so.needQuote=1 and so.doWithoutApply=1 and so.`status` in ('FINISH','CLEARED') and-->
+    <!--qo.quotationStatus not in ('RECHECKED') ) then 1 else 0 end) as qoDoWithoutApprovedNum,-->
+    <!--sum(case when (qo.grossProfitRate is not null and qo.grossProfitRate+0 > 80) then 1 else 0 end) as-->
+    <!--qoLowProfitRateNum,-->
+    <!--count(distinct so.id) as soTotalNum-->
+    <!--from serviceorder so-->
+    <!--LEFT JOIN quotationorder qo on so.id=qo.serviceOrderId-->
+    <!--LEFT JOIN companybrand cb on so.companyBrandId=cb.id-->
+    <!--LEFT JOIN shop s on so.shopCode=s.shopCode-->
+    <!--LEFT JOIN member m on m.id=so.dispatcherId-->
+    <!--<where>so.`status` not in ('CANCELED','CLOSED')-->
+    <!--and so.dispatcherId is not null-->
+    <!--AND so.id NOT IN (-->
+    <!--SELECT-->
+    <!--se.id-->
+    <!--FROM-->
+    <!--serviceorder se-->
+    <!--WHERE-->
+    <!--se.billsSource IN ('PLATFORM', 'CUSTOMER')-->
+    <!--AND se.`status` = 'CANCELED'-->
+    <!--)-->
+
+    <!--<if test="cityId != null">-->
+    <!--and s.cityId=#{cityId}-->
+    <!--</if>-->
+    <!--<if test="brandId != null">-->
+    <!--and s.brandId=#{brandId}-->
+    <!--</if>-->
+    <!--<if test="provinceId != null">-->
+    <!--and s.stateId=#{provinceId}-->
+    <!--</if>-->
+
+    <!--<if test="startTime != null">-->
+    <!--AND so.reportTime &gt;=#{startTime}-->
+    <!--</if>-->
+    <!--<if test="endTime != null">-->
+    <!--AND so.reportTime &lt;=#{endTime}-->
+    <!--</if>-->
+
+    <!--<if test="region !=null and region!=''">-->
+    <!--AND s.region=#{region}-->
+    <!--</if>-->
+    <!--<if test="serviceType != null and  serviceType != ''">-->
+    <!--AND so.type=#{serviceType}-->
+    <!--</if>-->
+
+
+    <!--<if test="customerShopCodes!= null and customerShopCodes.size()>0">-->
+    <!--AND so.shopCode IN-->
+    <!--<foreach collection="customerShopCodes" index="index" item="item" open="(" separator="," close=")">-->
+    <!--#{item}-->
+    <!--</foreach>-->
+    <!--</if>-->
+
+    <!--<if test="shopAuths!= null">-->
+    <!--AND (find_in_set(so.shopCode, #{shopAuths}))-->
+    <!--</if>-->
+
+    <!--</where>-->
+    <!--group by-->
+    <!--<if test="brandName != null and brandName != ''">-->
+    <!--cb.brandName, cb.id,-->
+    <!--</if>-->
+
+    <!--<if test="district != null and  district!=''">-->
+    <!--s.region,-->
+    <!--</if>-->
+
+    <!--<if test="provinceName != null and provinceName != ''">-->
+    <!--s.stateName,s.stateId,-->
+    <!--</if>-->
+    <!--dispatcherId-->
+    <!--LIMIT #{start},#{limit}-->
+    <!--</select>-->
+
+
+    <select id="searchListCount"
+            parameterType="com.anycall.base.model.business.condition.ServiceOrderSearchPageCondition"
+            resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM serviceOrder t0
+        JOIN companyBrand t1 ON t0.companyBrandId = t1.id
+        JOIN shop t2 ON t0.shopCode=t2.shopCode
+        JOIN organization t3 ON t0.supplierId=t3.id
+        JOIN company t8 ON t0.companyId=t8.id
+        <where>
+            1=1
+            <if test="stateIds!=null and stateIds.size()>0">
+                AND t2.stateId IN
+                <foreach collection="stateIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="brandId != null">
+                AND t0.companyBrandId=#{brandId}
+            </if>
+            <if test="region != null and region !=''">
+                AND t2.region=#{region}
+            </if>
+            <if test="brandIds!= null and brandIds.size()>0">
+                AND t0.companyBrandId IN
+                <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="cityId != null and cityId>0">
+                AND t2.cityId=#{cityId}
+            </if>
+            <if test="shopCodes!= null and shopCodes.size()>0">
+                AND t0.shopCode IN
+                <foreach collection="shopCodes" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="stateIds!=null and stateIds.size()>0">
+                AND t2.stateId IN
+                <foreach collection="stateIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="emergency!=null and emergency==true">
+                AND t0.slaLevel IN ('p1','p2')
+            </if>
+            <if test="notEmergency!=null and notEmergency==true">
+                AND t0.slaLevel IN ('p3','p4','p5','p6')
+            </if>
+            <if test="expired !=null and expired == 'true'">
+                AND t0.expired
+            </if>
+            <if test="expired !=null and expired == 'false'">
+                AND !t0.expired
+            </if>
+            <if test="statusList!= null and statusList.size()>0">
+                AND t0.status IN
+                <foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="orgTreeIds!=null and orgTreeIds.size()>0">
+                AND t0.supplierId IN
+                <foreach collection="orgTreeIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="shopCode!=null and shopCode!=''">
+                AND t0.shopCode =#{shopCpde}
+            </if>
+            <if test="startTime != null and dateType =='reportTime'">
+                AND t0.reportTime &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and dateType =='reportTime'">
+                AND t0.reportTime &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="startTime != null and dateType =='finishTime'">
+                AND t0.finishTime &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and dateType =='finishTime'">
+                AND t0.finishTime &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="finished !=null and finished == true">
+                and (t0.status ='FINISH' or t0.status = 'CLEARED')
+            </if>
+            <if test="finished !=null and finished == false">
+                and (t0.status !='FINISH' AND t0.status != 'CLEARED'
+                AND t0.status != 'CANCELED' AND t0.status != 'CLOSED')
+            </if>
+            <if test="overdue !=null and overdue == true">
+                AND t0.expired
+            </if>
+            <if test="overdue !=null and overdue == false">
+                AND !t0.expired
+            </if>
+            <if test="slaLevels!= null and slaLevels.size()>0">
+                AND t0.slaLevel IN
+                <foreach collection="slaLevels" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

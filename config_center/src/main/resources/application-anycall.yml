@@ -1,0 +1,14 @@
+server:
+  port: 9002
+
+
+spring:
+  cloud:
+    config:
+      label: master
+      server:
+        git:
+          uri: https://github.com/huaqianshu/backend-system
+          searchPaths: respo
+          username:
+          password:

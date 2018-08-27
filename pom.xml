@@ -15,6 +15,7 @@
         <module>serviceorder_service</module>
         <module>member_service</module>
         <module>dashboard_client</module>
+        <module>config_center</module>
     </modules>
 
     <parent>

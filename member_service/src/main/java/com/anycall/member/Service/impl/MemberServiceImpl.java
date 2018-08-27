@@ -12,7 +12,6 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberMapper memberMapper;
     @Override
-    @Cacheable
     public Member findById(Long id) {
         return memberMapper.findById(id);
     }

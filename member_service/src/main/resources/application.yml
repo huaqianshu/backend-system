@@ -8,7 +8,6 @@ server:
   port: 7000
   tomcat:
     uri-encoding: UTF-8
-    context-path: /memberservice
 spring:
   datasource:
     username: anycall30

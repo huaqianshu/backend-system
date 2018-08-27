@@ -121,11 +121,8 @@
             <if test="cityId != null and cityId>0">
                 AND t2.cityId=#{cityId}
             </if>
-            <if test="shopAuths!= null and shopAuths.size()>0">
-                AND t0.shopCode IN
-                <foreach collection="shopAuths" index="index" item="item" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
+            <if test="shopAuths!= null">
+                AND (find_in_set(t0.shopCode,#{shopAuths} ))
             </if>
             <if test="orgTreeIds!=null and orgTreeIds.size()>0">
                 AND t0.supplierId IN

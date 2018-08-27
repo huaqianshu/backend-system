@@ -1,9 +1,16 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
-mybatis:
-  typeAliasesPackage: com.anycall.object
-  mapperLocations: mybatis/mapper/*/*.xml
-  configuration:
-    mapUnderscoreToCamelCase: true
+
+server:
+  port: 8002
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  application:
+    name: config-server
 
 
 logging:
@@ -19,3 +26,4 @@ logging.level.org.springframework.web: DEBUG
 logging.level.org.hibernate: ERROR
 logging.path: /home/admin/application/logs
 #logging.file: demo.log
+

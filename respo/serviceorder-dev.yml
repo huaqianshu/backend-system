@@ -1,4 +1,8 @@
-
+mybatis:
+  typeAliasesPackage: com.anycall.object
+  mapperLocations: mybatis/mapper/*/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
 spring:
   datasource:
     username: anycall30

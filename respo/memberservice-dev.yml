@@ -44,5 +44,5 @@ logging:
   level:
     com:
       anycall:
-        display:
+        member:
           mapper: DEBUG

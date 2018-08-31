@@ -4,7 +4,7 @@ spring:
       server:
         git:
           uri: https://github.com/huaqianshu/backend-system
-          searchPaths: respo
           username:
           password:
+          search-paths: respo
         default-label: master

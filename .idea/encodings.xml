@@ -3,15 +3,11 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/base_entity" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config_center" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dashboard_client" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/dashboard_service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/member_service" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/organization_service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service_zuul" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/serviceorder_service" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serviceorder_service" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serviceorder_service" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/serviceorder_service/member_service" charset="UTF-8" />
   </component>
 </project>

@@ -6,24 +6,22 @@ eureka:
 
 server:
   port: 8002
-  tomcat:
-    uri-encoding: UTF-8
 spring:
   application:
     name: config-server
 
 
-logging:
-  level:
-    com:
-      anycall:
-        display:
-          mapper: DEBUG
-  path: logs
+#logging:
+#  level:
+#    com:
+#      anycall:
+#        display:
+#          mapper: DEBUG
+#  path: logs
 
-logging.level.root: INFO
-logging.level.org.springframework.web: DEBUG
-logging.level.org.hibernate: ERROR
-logging.path: /home/admin/application/logs
+#logging.level.root: INFO
+#logging.level.org.springframework.web: DEBUG
+#logging.level.org.hibernate: ERROR
+#logging.path: /home/admin/application/logs
 #logging.file: demo.log
 

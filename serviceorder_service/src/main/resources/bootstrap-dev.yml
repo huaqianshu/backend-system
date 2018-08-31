@@ -8,7 +8,6 @@ spring:
       uri:  http://localhost:8002/
   profiles:
     active: respo
-
 server:
   port: 7001
 eureka:

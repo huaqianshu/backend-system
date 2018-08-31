@@ -1,57 +1,14 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
 
-
-server:
-  port: 7000
-  tomcat:
-    uri-encoding: UTF-8
+#logging.level.root: INFO
+#logging.level.org.springframework.web: DEBUG
+#logging.level.org.hibernate: ERROR
+#logging.path: /home/admin/application/logs
+##logging.file: demo.log
 spring:
-  datasource:
-    username: anycall30
-    password: anycalluat
-    url: jdbc:mysql://139.196.209.200:53306/anycall30?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
-    type: com.alibaba.druid.pool.DruidDataSource
-    filters: statN
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: true
-    testOnReturn: true
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
-  application:
-    name: memberservice
+  profiles:
+    # 这里的意思是启用dev环境
+    active: dev
 
-mybatis:
-  typeAliasesPackage: com.anycall.object
-  mapperLocations: mybatis/mapper/*/*.xml
-  configuration:
-    mapUnderscoreToCamelCase: true
-
-
-logging:
-  level:
-    com:
-      anycall:
-        display:
-          mapper: DEBUG
-  path: logs
-
-logging.level.root: INFO
-logging.level.org.springframework.web: DEBUG
-logging.level.org.hibernate: ERROR
-logging.path: /home/admin/application/logs
-#logging.file: demo.log
-intelligencework:
-  #post-url: http://139.196.209.200:8080
-#  post-url: http://192.168.2.11:9000
-  post-url: http://139.196.209.200:8080
-  token: 14F4FEA7-CE81-4277-94F1-A8FC74CB01E0
+#---
+#spring:
+#  profiles: dev

@@ -6,11 +6,10 @@ spring:
       password:
       username:
       uri:  http://localhost:8002/
-  profiles:
-    active: respo
-
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
 server:
-  port: 7001
+  port: 7000
 eureka:
   client:
     serviceUrl:

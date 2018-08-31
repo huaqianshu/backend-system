@@ -1,13 +1,13 @@
 spring:
   application:
     name: serviceorder
-    cloud:
-      config:
-        password:
-        username:
-        uri:  http://localhost:8002/
-    profiles:
-      active: respo
+  cloud:
+    config:
+      password:
+      username:
+      uri:  http://localhost:8002/
+  profiles:
+    active: respo
 server:
   port: 9001
 eureka:

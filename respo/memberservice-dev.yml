@@ -43,11 +43,6 @@ spring:
         min-idle: 0
     # 连接超时时间（毫秒）
     timeout: 100ms
-mybatis:
-  typeAliasesPackage: com.anycall.object
-  mapperLocations: mybatis/mapper/*/*.xml
-  configuration:
-    mapUnderscoreToCamelCase: true
 logging:
   level:
     com:

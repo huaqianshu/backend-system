@@ -10,9 +10,9 @@ import org.springframework.cache.annotation.Cacheable;
 import java.util.List;
 
 @Mapper
-@CacheConfig(cacheNames = "member")
+
 public interface MemberMapper {
-    @Cacheable(key ="#p0")
+
     Member findById(Long id);
     List<Member> findByName(String loginName);
     List<Long> findByOgrTreeIds(MemberSearchPageCondition condition);

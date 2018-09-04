@@ -6,8 +6,8 @@ spring:
       password:
       username:
       uri:  http://localhost:8002/
-      name: ${spring.application.name}
-      profile: ${spring.profiles.active}
+  profiles:
+    active: respo
 server:
   port: 7000
 eureka:

@@ -32,6 +32,7 @@
         <jackson.version>2.9.6</jackson.version>
         <jxls.version>1.0.6</jxls.version>
         <mysql-connector.version>6.0.6</mysql-connector.version>
+        <commons.pool2>2.6.0</commons.pool2>
     </properties>
     <dependencies>
         <dependency>

@@ -8,3 +8,12 @@ spring:
           password:
           search-paths: respo
         default-label: master
+  rabbitmq:
+    host: 47.95.13.238
+    username: root
+    password: root123456
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
